@@ -20,6 +20,8 @@ before_action :set_user, only:[:show]
 
   def show
     @activities = PublicActivity::Activity.where(owner_id: @user.id)
+    @post = Post.new
+    @posts = @user.posts.order('created_at DESC')
   end
 
 private

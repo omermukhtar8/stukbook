@@ -18,6 +18,10 @@ before_action :set_user, only:[:show]
   def show
   end
 
+  def show
+    @activities = PublicActivity::Activity.where(owner_id: @user.id)
+  end
+
 private
 def set_user
 	@user=User.find_by(username: params[:id])

@@ -15,4 +15,13 @@ class User < ActiveRecord::Base
          	self.friendships.create(friend: user_2)
          
         end
+
+
+
+        def active_friends
+         
+       self.friendships.where(state: "active").map(&:friend) + self.inverse_friendships.where(state: "active").map(&:user)
+
+
+        end
 end

@@ -24,6 +24,16 @@ class User < ActiveRecord::Base
        self.friendships.where(state: "active").map(&:friend) + self.inverse_friendships.where(state: "active").map(&:user)
 
 end
+def pending_friend_requests_from
+self.inverse_friendships.where(state: "pending")
+
+
+end
+
+
+def pending_friend_requests_to
+self.friendships.where(state: "pending")
+end
 
 def friendship_status(user_2)
     friendship = Friendship.where(user_id: [self.id,user_2.id], friend_id: [self.id,user_2.id])

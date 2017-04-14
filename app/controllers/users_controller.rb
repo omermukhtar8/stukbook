@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   
 before_action :authenticate_user!, only:[:index]
+ before_action :get_counts, only: [:index]
 
 def index
     	case params[:people] when "friends"
@@ -15,8 +16,8 @@ def index
 	end
 
 before_action :set_user, only:[:show]
-  def show
-  end
+  # def show
+  # end
 
   def show
     @activities = PublicActivity::Activity.where(owner_id: @user.id)
@@ -25,6 +26,14 @@ before_action :set_user, only:[:show]
   end
 
 private
+
+
+def get_counts
+    @friend_count = current_user.active_friends.size
+    @pending_count = current_user.pending_friend_requests_to.map(&:friend).size
+  end
+
+
 def set_user
 	@user=User.find_by(username: params[:id])
 end
